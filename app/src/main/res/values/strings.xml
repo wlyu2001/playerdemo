@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PlayerDemo</string>
+    <string name="title_activity_main">Demo</string>
+
+    <string name="token_fragment_label">Token Fragment</string>
+    <string name="section_fragment_label">Section Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="title_activity_player">Player</string>
+</resources>

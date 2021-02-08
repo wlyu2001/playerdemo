@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tokenFragment">
+
+    <fragment
+        android:id="@+id/tokenFragment"
+        android:name="com.shishiapp.playerdemo.fragments.TokenFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_tokenFragment_to_sectionFragment"
+            app:destination="@id/sectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sectionFragment"
+        android:name="com.shishiapp.playerdemo.fragments.SectionFragment"
+        android:label="fragment_section"
+        tools:layout="@layout/fragment_section" >
+        <action
+            android:id="@+id/action_sectionFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.shishiapp.playerdemo.fragments.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+</navigation>
