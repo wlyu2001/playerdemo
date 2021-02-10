@@ -1,9 +1,9 @@
 package com.shishiapp.playerdemo
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,6 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-
+        NavigationUI.setupActionBarWithNavController(
+            this,
+            findNavController(this, R.id.nav_host_fragment)
+        )
     }
+
+
+    override fun onSupportNavigateUp() =
+        findNavController(this, R.id.nav_host_fragment).navigateUp()
 }

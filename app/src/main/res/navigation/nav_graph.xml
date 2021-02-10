@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/tokenFragment"
-        android:name="com.shishiapp.playerdemo.fragments.TokenFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" >
+        android:name="com.shishiapp.playerdemo.fragment.TokenFragment"
+        android:label="Demo"
+        tools:layout="@layout/fragment_content_list" >
         <action
             android:id="@+id/action_tokenFragment_to_sectionFragment"
-            app:destination="@id/sectionFragment" />
+            app:destination="@id/sectionListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/sectionFragment"
-        android:name="com.shishiapp.playerdemo.fragments.SectionFragment"
-        android:label="fragment_section"
-        tools:layout="@layout/fragment_section" >
+        android:id="@+id/sectionListFragment"
+        android:name="com.shishiapp.playerdemo.fragment.SectionListFragment"
+        android:label="Sections"
+        tools:layout="@layout/fragment_section_list" >
         <action
             android:id="@+id/action_sectionFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/contentListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/listFragment"
-        android:name="com.shishiapp.playerdemo.fragments.ListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        android:id="@+id/contentListFragment"
+        android:name="com.shishiapp.playerdemo.fragment.ContentListFragment"
+        android:label="Contents"
+        tools:layout="@layout/fragment_content_list" />
 </navigation>

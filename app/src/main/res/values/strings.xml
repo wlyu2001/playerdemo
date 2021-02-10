@@ -4,8 +4,9 @@
 
     <string name="token_fragment_label">Token Fragment</string>
     <string name="section_fragment_label">Section Fragment</string>
-    <string name="next">Next</string>
+    <string name="start">Start</string>
     <string name="previous">Previous</string>
 
     <string name="title_activity_player">Player</string>
+    <string name="token_hint">Token</string>
 </resources>
