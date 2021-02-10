@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import com.shishiapp.playerdemo.model.Content
+import com.shishiapp.playerdemo.model.ContentList
 import com.shishiapp.playerdemo.model.SectionList
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,7 +26,7 @@ interface PlexAPI {
     fun getSectionList(@Path("path", encoded = true) path: String): Observable<SectionList>
 
     @GET("{path}")
-    fun getContent(@Path("path", encoded = true) path: String): Observable<Content>
+    fun getContentList(@Path("path", encoded = true) path: String): Observable<ContentList>
 
 
     @GET("/")
@@ -40,7 +41,12 @@ object PlexService {
     lateinit var plexApi: PlexAPI
     private var realm = Realm.getDefaultInstance()
     private var baseUrl = HttpUrl.parse("http://10.0.2.2:32400")!!
+    private var token = ""
 
+    fun getImageUrl(path: String): String {
+        return baseUrl.newBuilder().addEncodedPathSegments(path.removePrefix("/"))
+            .addQueryParameter("X-Plex-Token", this.token).build().toString()
+    }
 
     fun checkToken(token: String, completion: (Boolean) -> Unit) {
 
@@ -76,6 +82,7 @@ object PlexService {
 
     fun initService(token: String) {
 
+        this.token = token
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -115,6 +122,8 @@ object PlexService {
         val observable = when (type) {
             SectionList::class.java ->
                 plexApi.getSectionList(path)
+            ContentList::class.java ->
+                plexApi.getContentList(path)
 
             else -> null
         }
