@@ -1,20 +1,35 @@
 package com.shishiapp.playerdemo
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import com.shishiapp.playerdemo.model.Content
+
+
+fun Context.PlayerIntent(content: Content): Intent {
+    return Intent(this, PlayerActivity::class.java).apply {
+        val partKeys = content.media?.let { it.parts.map{ part -> part.key} }
+            ?.toTypedArray()
+            ?: emptyArray()
+
+
+        putExtra(INTENT_PART_KEYS, partKeys)
+    }
+}
+
+private const val INTENT_PART_KEYS = "part_keys"
 
 class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        val partKeys = intent.getStringArrayExtra(INTENT_PART_KEYS)
+val i = 0
+
     }
+
+
 }

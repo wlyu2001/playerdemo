@@ -20,7 +20,7 @@ class ContentListViewHolder constructor(private val dataBinding: ViewDataBinding
         dataBinding.setVariable(BR.itemData, content)
         dataBinding.executePendingBindings()
 
-        Picasso.get().load(PlexService.getImageUrl(content.thumb)).into(thumbImageView)
+        Picasso.get().load(PlexService.getMediaUrl(content.thumb)).into(thumbImageView)
 
         itemView.setOnClickListener {
             val bundle = bundleOf("key" to content.key)

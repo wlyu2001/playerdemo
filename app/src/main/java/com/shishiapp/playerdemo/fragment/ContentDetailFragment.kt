@@ -1,6 +1,5 @@
 package com.shishiapp.playerdemo.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.shishiapp.playerdemo.PlayerIntent
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.FragmentContentDetailBinding
 import com.shishiapp.playerdemo.network.PlexService
@@ -49,7 +48,7 @@ class ContentDetailFragment : Fragment() {
             arguments?.let { it.getString("key")?.let { it1 -> viewModel.fetchContentDetail(it1) } }
 
             viewModel.contentDetailLive.observe(viewLifecycleOwner, { content ->
-                Picasso.get().load(PlexService.getImageUrl(content.art)).into(imageViewArt)
+                Picasso.get().load(PlexService.getMediaUrl(content.art)).into(imageViewArt)
                 textViewTitle.text = content.title
                 textViewDuration.text = getString(
                     R.string.duration_string, SimpleDateFormat("hh:mm:ss").format(
@@ -58,8 +57,13 @@ class ContentDetailFragment : Fragment() {
                         )
                     )
                 )
+
+                view.findViewById<Button>(R.id.button_play).setOnClickListener {
+                    startActivity(activity?.PlayerIntent(content))
+                }
             })
         }
-        
+
+
     }
 }

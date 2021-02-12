@@ -47,7 +47,7 @@ object PlexService {
     private var baseUrl = HttpUrl.parse("http://10.0.2.2:32400")!!
     private var token = ""
 
-    fun getImageUrl(path: String): String {
+    fun getMediaUrl(path: String): String {
         return baseUrl.newBuilder().addEncodedPathSegments(path.removePrefix("/"))
             .addQueryParameter("X-Plex-Token", this.token).build().toString()
     }
