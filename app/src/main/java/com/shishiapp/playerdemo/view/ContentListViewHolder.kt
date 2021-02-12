@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 class ContentListViewHolder constructor(private val dataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(dataBinding.root) {
 
-    private val thumbImageView = itemView.findViewById<ImageView>(R.id.thumb)
+    private val thumbImageView = itemView.findViewById<ImageView>(R.id.imageview_thumb)
 
     fun setup(content: Content) {
         dataBinding.setVariable(BR.itemData, content)
@@ -25,7 +25,7 @@ class ContentListViewHolder constructor(private val dataBinding: ViewDataBinding
         itemView.setOnClickListener {
             val bundle = bundleOf("key" to content.key)
             itemView.findNavController()
-                .navigate(R.id.action_sectionFragment_to_listFragment, bundle)
+                .navigate(R.id.action_contentListFragment_to_contentDetailFragment, bundle)
         }
     }
 

@@ -27,5 +27,13 @@
         android:id="@+id/contentListFragment"
         android:name="com.shishiapp.playerdemo.fragment.ContentListFragment"
         android:label="Contents"
-        tools:layout="@layout/fragment_content_list" />
+        tools:layout="@layout/fragment_content_list" >
+        <action
+            android:id="@+id/action_contentListFragment_to_contentDetailFragment"
+            app:destination="@id/contentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentDetailFragment"
+        android:name="com.shishiapp.playerdemo.fragment.ContentDetailFragment"
+        android:label="Detail" />
 </navigation>

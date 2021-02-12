@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import com.shishiapp.playerdemo.model.Content
+import com.shishiapp.playerdemo.model.ContentDetail
 import com.shishiapp.playerdemo.model.ContentList
 import com.shishiapp.playerdemo.model.SectionList
 import io.reactivex.Observable
@@ -27,6 +28,9 @@ interface PlexAPI {
 
     @GET("{path}")
     fun getContentList(@Path("path", encoded = true) path: String): Observable<ContentList>
+
+    @GET("{path}")
+    fun getContentDetail(@Path("path", encoded = true) path: String): Observable<ContentDetail>
 
 
     @GET("/")
@@ -124,6 +128,8 @@ object PlexService {
                 plexApi.getSectionList(path)
             ContentList::class.java ->
                 plexApi.getContentList(path)
+            ContentDetail::class.java ->
+                plexApi.getContentDetail(path)
 
             else -> null
         }

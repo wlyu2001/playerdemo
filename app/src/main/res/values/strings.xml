@@ -9,4 +9,6 @@
 
     <string name="title_activity_player">Player</string>
     <string name="token_hint">Token</string>
+    <string name="duration_string">Duration: %s</string>
+    <string name="play">Play</string>
 </resources>
