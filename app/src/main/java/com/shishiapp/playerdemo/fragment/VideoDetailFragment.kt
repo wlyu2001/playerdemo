@@ -9,29 +9,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.shishiapp.playerdemo.PlayerIntent
 import com.shishiapp.playerdemo.R
-import com.shishiapp.playerdemo.databinding.FragmentContentDetailBinding
+import com.shishiapp.playerdemo.databinding.FragmentVideoDetailBinding
 import com.shishiapp.playerdemo.network.PlexService
-import com.shishiapp.playerdemo.viewmodel.ContentDetailViewModel
+import com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ContentDetailFragment : Fragment() {
+class VideoDetailFragment : Fragment() {
 
-    private lateinit var viewDataBinding: FragmentContentDetailBinding
+    private lateinit var viewDataBinding: FragmentVideoDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        viewDataBinding = FragmentContentDetailBinding.inflate(inflater, container, false).apply {
+        viewDataBinding = FragmentVideoDetailBinding.inflate(inflater, container, false).apply {
 
             viewmodel =
-                ViewModelProvider(this@ContentDetailFragment).get(ContentDetailViewModel::class.java)
+                ViewModelProvider(this@VideoDetailFragment).get(VideoDetailViewModel::class.java)
             lifecycleOwner = viewLifecycleOwner
         }
         return viewDataBinding.root
@@ -59,7 +58,7 @@ class ContentDetailFragment : Fragment() {
                 )
 
                 view.findViewById<Button>(R.id.button_play).setOnClickListener {
-                    startActivity(activity?.PlayerIntent(content))
+
                 }
             })
         }

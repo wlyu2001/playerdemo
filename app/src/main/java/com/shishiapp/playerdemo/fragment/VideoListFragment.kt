@@ -10,24 +10,24 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.R
-import com.shishiapp.playerdemo.adapter.ContentListAdapter
-import com.shishiapp.playerdemo.databinding.FragmentContentListBinding
-import com.shishiapp.playerdemo.viewmodel.ContentListViewModel
+import com.shishiapp.playerdemo.adapter.VideoListAdapter
+import com.shishiapp.playerdemo.databinding.FragmentVideoListBinding
+import com.shishiapp.playerdemo.viewmodel.VideoListViewModel
 
-class ContentListFragment : Fragment() {
+class VideoListFragment : Fragment() {
 
-    private lateinit var viewDataBinding: FragmentContentListBinding
-    private lateinit var adapter: ContentListAdapter
+    private lateinit var viewDataBinding: FragmentVideoListBinding
+    private lateinit var adapter: VideoListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        viewDataBinding = FragmentContentListBinding.inflate(inflater, container, false).apply {
+        viewDataBinding = FragmentVideoListBinding.inflate(inflater, container, false).apply {
 
             viewmodel =
-                ViewModelProvider(this@ContentListFragment).get(ContentListViewModel::class.java)
+                ViewModelProvider(this@VideoListFragment).get(VideoListViewModel::class.java)
             lifecycleOwner = viewLifecycleOwner
         }
         return viewDataBinding.root
@@ -41,10 +41,10 @@ class ContentListFragment : Fragment() {
             arguments?.let { viewModel.fetchContentList(it.getInt("key")) }
 
             viewModel.contentListLive.observe(viewLifecycleOwner, {
-                adapter.updateContentList(it)
+                adapter.updateVideoList(it)
             })
 
-            adapter = ContentListAdapter()
+            adapter = VideoListAdapter()
             val layoutManager = LinearLayoutManager(activity)
             val contentListRecyclerView =
                 view.findViewById<RecyclerView>(R.id.recyclerview_content_list)

@@ -7,7 +7,7 @@
 
         <variable
             name="itemData"
-            type="com.shishiapp.playerdemo.model.Content" />
+            type="com.shishiapp.playerdemo.model.Video" />
     </data>
 
     <RelativeLayout

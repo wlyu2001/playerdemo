@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="com.shishiapp.playerdemo.viewmodel.ContentListViewModel" />
+            type="com.shishiapp.playerdemo.viewmodel.VideoListViewModel" />
     </data>
 
 

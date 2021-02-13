@@ -2,25 +2,25 @@ package com.shishiapp.playerdemo.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shishiapp.playerdemo.model.Content
-import com.shishiapp.playerdemo.model.ContentList
+import com.shishiapp.playerdemo.model.Video
+import com.shishiapp.playerdemo.model.VideoList
 import com.shishiapp.playerdemo.network.PlexService
 
-class ContentListViewModel : ViewModel() {
+class VideoListViewModel : ViewModel() {
 
     val dataLoading = MutableLiveData<Boolean>().apply { value = false }
 
-    val contentListLive = MutableLiveData<List<Content>>()
+    val contentListLive = MutableLiveData<List<Video>>()
 
     fun fetchContentList(sectionId: Int) {
         dataLoading.value = true
 
         PlexService.get(
-            ContentList.url(sectionId),
-            ContentList::class.java,
+            VideoList.url(sectionId),
+            VideoList::class.java,
             success = { contentList ->
                 dataLoading.value = false
-                contentListLive.value = contentList.contents
+                contentListLive.value = contentList.videos
             }) { error ->
             dataLoading.value = false
         }

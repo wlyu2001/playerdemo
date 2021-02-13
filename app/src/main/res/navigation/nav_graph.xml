@@ -9,7 +9,7 @@
         android:id="@+id/tokenFragment"
         android:name="com.shishiapp.playerdemo.fragment.TokenFragment"
         android:label="Demo"
-        tools:layout="@layout/fragment_content_list" >
+        tools:layout="@layout/fragment_video_list" >
         <action
             android:id="@+id/action_tokenFragment_to_sectionFragment"
             app:destination="@id/sectionListFragment" />
@@ -20,20 +20,20 @@
         android:label="Sections"
         tools:layout="@layout/fragment_section_list" >
         <action
-            android:id="@+id/action_sectionFragment_to_listFragment"
-            app:destination="@id/contentListFragment" />
+            android:id="@+id/action_sectionFragment_to_videoListFragment"
+            app:destination="@id/videoListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/contentListFragment"
-        android:name="com.shishiapp.playerdemo.fragment.ContentListFragment"
-        android:label="Contents"
-        tools:layout="@layout/fragment_content_list" >
+        android:id="@+id/videoListFragment"
+        android:name="com.shishiapp.playerdemo.fragment.VideoListFragment"
+        android:label="Videos"
+        tools:layout="@layout/fragment_video_list" >
         <action
-            android:id="@+id/action_contentListFragment_to_contentDetailFragment"
-            app:destination="@id/contentDetailFragment" />
+            android:id="@+id/action_videoListFragment_to_videoDetailFragment"
+            app:destination="@id/videoDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/contentDetailFragment"
-        android:name="com.shishiapp.playerdemo.fragment.ContentDetailFragment"
+        android:id="@+id/videoDetailFragment"
+        android:name="com.shishiapp.playerdemo.fragment.VideoDetailFragment"
         android:label="Detail" />
 </navigation>

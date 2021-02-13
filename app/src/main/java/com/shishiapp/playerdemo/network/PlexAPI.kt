@@ -3,9 +3,9 @@ package com.shishiapp.playerdemo.network
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
-import com.shishiapp.playerdemo.model.Content
-import com.shishiapp.playerdemo.model.ContentDetail
-import com.shishiapp.playerdemo.model.ContentList
+import com.shishiapp.playerdemo.model.Video
+import com.shishiapp.playerdemo.model.VideoDetail
+import com.shishiapp.playerdemo.model.VideoList
 import com.shishiapp.playerdemo.model.SectionList
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,14 +27,14 @@ interface PlexAPI {
     fun getSectionList(@Path("path", encoded = true) path: String): Observable<SectionList>
 
     @GET("{path}")
-    fun getContentList(@Path("path", encoded = true) path: String): Observable<ContentList>
+    fun getContentList(@Path("path", encoded = true) path: String): Observable<VideoList>
 
     @GET("{path}")
-    fun getContentDetail(@Path("path", encoded = true) path: String): Observable<ContentDetail>
+    fun getContentDetail(@Path("path", encoded = true) path: String): Observable<VideoDetail>
 
 
     @GET("/")
-    fun checkToken(@Path("path", encoded = true) path: String): Observable<Content>
+    fun checkToken(@Path("path", encoded = true) path: String): Observable<Video>
 
 }
 
@@ -126,9 +126,9 @@ object PlexService {
         val observable = when (type) {
             SectionList::class.java ->
                 plexApi.getSectionList(path)
-            ContentList::class.java ->
+            VideoList::class.java ->
                 plexApi.getContentList(path)
-            ContentDetail::class.java ->
+            VideoDetail::class.java ->
                 plexApi.getContentDetail(path)
 
             else -> null

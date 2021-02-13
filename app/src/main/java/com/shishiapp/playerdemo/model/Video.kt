@@ -11,9 +11,9 @@ import org.simpleframework.xml.Root
 
 @RealmClass
 @Root(name = "MediaContainer", strict = false)
-open class ContentList : RealmObject() {
+open class VideoList : RealmObject() {
     @field:ElementList(entry = "Video", inline = true)
-    var contents = RealmList<Content>()
+    var videos = RealmList<Video>()
 
     companion object {
         fun url(sectionId: Int): String {
@@ -25,9 +25,9 @@ open class ContentList : RealmObject() {
 
 @RealmClass
 @Root(name = "MediaContainer", strict = false)
-open class ContentDetail : RealmObject() {
+open class VideoDetail : RealmObject() {
     @field:Element(name = "Video", required = false)
-    var content: Content? = null
+    var video: Video? = null
 
     companion object {
         fun url(key: String): String {
@@ -39,7 +39,7 @@ open class ContentDetail : RealmObject() {
 
 @RealmClass
 @Root(name = "Video", strict = false)
-open class Content : RealmObject() {
+open class Video : RealmObject() {
     @PrimaryKey
     @field:Attribute(name = "key")
     var key = ""
@@ -62,8 +62,8 @@ open class Content : RealmObject() {
     @field:Attribute(name = "art", required = false)
     var art = ""
 
-    @field:Element(name = "Media", required = false)
-    var media: Media? = null
+    @field:ElementList(entry = "Media", inline = true, required = false)
+    var media = RealmList<String>()
 
     @field:ElementList(entry = "Genre", inline = true, required = false)
     var genres = RealmList<String>()

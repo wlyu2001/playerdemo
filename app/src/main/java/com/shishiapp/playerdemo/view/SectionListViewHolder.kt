@@ -19,7 +19,7 @@ class SectionListViewHolder constructor(private val dataBinding: ViewDataBinding
         itemView.setOnClickListener {
             val bundle = bundleOf("key" to section.key)
             itemView.findNavController()
-                .navigate(R.id.action_sectionFragment_to_listFragment, bundle)
+                .navigate(R.id.action_sectionFragment_to_videoListFragment, bundle)
         }
     }
 
