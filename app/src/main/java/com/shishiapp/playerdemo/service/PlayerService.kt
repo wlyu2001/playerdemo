@@ -31,7 +31,7 @@ private const val MEDIA_SESSION_TAG = "media_session"
 class PlayerService : Service(), Player.EventListener {
     private lateinit var player: SimpleExoPlayer
     private val binder = PlayerServiceBinder()
-    private var callback: OnPlayerServiceCallback? = null
+    private var callback: PlayerServiceCallback? = null
     private lateinit var playerNotificationManager: PlayerNotificationManager
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
@@ -172,7 +172,7 @@ class PlayerService : Service(), Player.EventListener {
             get() = this@PlayerService.player
     }
 
-    fun addListener(callback: OnPlayerServiceCallback) {
+    fun addListener(callback: PlayerServiceCallback) {
         this.callback = callback
     }
 

@@ -3,11 +3,11 @@ package com.shishiapp.playerdemo.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.service.OnPlayerServiceCallback
+import com.shishiapp.playerdemo.service.PlayerServiceCallback
 import io.realm.Realm
 import io.realm.kotlin.where
 
-class PlayerViewModel : ViewModel(), OnPlayerServiceCallback {
+class PlayerViewModel : ViewModel(), PlayerServiceCallback {
 
     private var realm = Realm.getDefaultInstance()
 

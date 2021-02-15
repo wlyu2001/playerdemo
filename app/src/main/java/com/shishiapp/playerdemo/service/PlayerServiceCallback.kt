@@ -1,6 +1,6 @@
 package com.shishiapp.playerdemo.service
 
-interface OnPlayerServiceCallback {
+interface PlayerServiceCallback {
 
 
     fun setRepeatMode(repeatMode: Int)
