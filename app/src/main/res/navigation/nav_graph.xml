@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tokenFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
-        android:id="@+id/tokenFragment"
-        android:name="com.shishiapp.playerdemo.fragment.TokenFragment"
+        android:id="@+id/startFragment"
+        android:name="com.shishiapp.playerdemo.fragment.StartFragment"
         android:label="Demo"
         tools:layout="@layout/fragment_video_list" >
         <action
-            android:id="@+id/action_tokenFragment_to_sectionFragment"
+            android:id="@+id/action_startFragment_to_sectionFragment"
             app:destination="@id/sectionListFragment" />
     </fragment>
     <fragment

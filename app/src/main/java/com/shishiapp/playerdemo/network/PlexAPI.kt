@@ -44,15 +44,16 @@ object PlexService {
 
     lateinit var plexApi: PlexAPI
     private var realm = Realm.getDefaultInstance()
-    private var baseUrl = HttpUrl.parse("http://10.0.2.2:32400")!!
-    private var token = ""
+//    private var baseUrl = HttpUrl.parse("http://10.0.2.2:32400")!!
+    private var baseUrl = HttpUrl.parse("http://192.168.2.155:32400")!!
+    private val token = "XasryqPNGxgcHva-xAyf"
 
     fun getMediaUrl(path: String): String {
         return baseUrl.newBuilder().addEncodedPathSegments(path.removePrefix("/"))
             .addQueryParameter("X-Plex-Token", this.token).build().toString()
     }
 
-    fun checkToken(token: String, completion: (Boolean) -> Unit) {
+    fun connect(completion: (Boolean) -> Unit) {
 
         val client = OkHttpClient()
 
@@ -84,14 +85,9 @@ object PlexService {
         })
     }
 
-    fun initService(token: String) {
-
-        this.token = token
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+    fun initService() {
 
         val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
             .addInterceptor { chain ->
                 var request = chain.request()
 
