@@ -20,7 +20,7 @@ class VideoListViewHolder constructor(private val dataBinding: ViewDataBinding) 
         dataBinding.setVariable(BR.itemData, video)
         dataBinding.executePendingBindings()
 
-        Picasso.get().load(PlexService.getMediaUrl(video.thumb)).into(thumbImageView)
+        Picasso.get().load(PlexService.getMediaUrl(video.thumb)).placeholder(R.drawable.plex_logo).into(thumbImageView)
 
         itemView.setOnClickListener {
             val bundle = bundleOf("key" to video.key)
