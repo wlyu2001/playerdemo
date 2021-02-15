@@ -12,4 +12,11 @@
     <string name="duration_string">Duration: %s</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
+    <string name="buffering">Buffering</string>
+    <string name="ready">Ready</string>
+    <string name="ended">Ended</string>
+    <string name="idle">Idle</string>
+    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_one">Repeat One</string>
+    <string name="repeat_all">Repeat All</string>
 </resources>

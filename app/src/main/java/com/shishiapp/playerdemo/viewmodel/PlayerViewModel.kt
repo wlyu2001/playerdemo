@@ -14,13 +14,17 @@ class PlayerViewModel : ViewModel(), OnPlayerServiceCallback {
     val durationData = MutableLiveData<Long>()
     val positionData = MutableLiveData<Long>()
 
-    val isBufferingData = MutableLiveData<Boolean>()
     val isPlayingData = MutableLiveData<Boolean>()
+    val playerStateData = MutableLiveData<Int>()
+    val repeatModeData = MutableLiveData<Int>()
 
     val currentVideo = MutableLiveData<Video>()
+    override fun setRepeatMode(repeatMode: Int) {
+        repeatModeData.value = repeatMode
+    }
 
-    override fun setBufferingData(isBuffering: Boolean) {
-
+    override fun setPlayerState(state: Int) {
+        playerStateData.value = state
     }
 
     override fun setIsPlaying(isPlaying: Boolean) {

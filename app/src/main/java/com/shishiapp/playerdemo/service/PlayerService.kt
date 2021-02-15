@@ -19,6 +19,8 @@ class PlayerService : Service(), Player.EventListener {
     private var mCallback: OnPlayerServiceCallback? = null
 
     private val handler = Handler()
+    private var durationSet = false
+    private var playing = false
 
     override fun onCreate() {
         super.onCreate()
@@ -63,14 +65,21 @@ class PlayerService : Service(), Player.EventListener {
 
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
+        playing = isPlaying
         if (isPlaying) {
             handler.postDelayed(object : Runnable {
                 override fun run() {
-                    mCallback?.setPosition(mExoPlayer.currentPosition)
-                    handler.postDelayed(this, 100)
+                    if (playing) {
+                        mCallback?.setPosition(mExoPlayer.currentPosition)
+                        handler.postDelayed(this, 100)
+                    }
                 }
             }, 100)
         }
+    }
+
+    override fun onRepeatModeChanged(repeatMode: Int) {
+        mCallback?.setRepeatMode(repeatMode)
     }
 
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -80,21 +89,29 @@ class PlayerService : Service(), Player.EventListener {
 
     override fun onPlaybackStateChanged(state: Int) {
 
+        mCallback?.setPlayerState(state)
+
         when (state) {
-            Player.STATE_BUFFERING -> {
-                mCallback?.setBufferingData(true)
-                mCallback?.setIsPlaying(false)
+            Player.STATE_READY -> {
+                if (!durationSet) {
+                    durationSet = true
+                    mCallback?.setDuration(mExoPlayer.duration)
+                }
             }
 
-            Player.STATE_READY -> {
-                mCallback?.setDuration(mExoPlayer.duration)
+            Player.STATE_ENDED -> {
+                mExoPlayer.seekTo(0)
+                mExoPlayer.playWhenReady = false
+                mCallback?.setPosition(0)
             }
 
             else -> {
-                mCallback?.setBufferingData(false)
-                mCallback?.setIsPlaying(false)
+
             }
+
         }
+
+
 //        mNotificationManager?.generateNotification()
     }
 
@@ -105,10 +122,17 @@ class PlayerService : Service(), Player.EventListener {
             val mediaItem = MediaItem.fromUri(PlexService.getMediaUrl(part.key))
 
             mExoPlayer.addMediaItem(mediaItem)
+
+
         }
         mExoPlayer.prepare()
-        mExoPlayer.playWhenReady = true
+        mExoPlayer.repeatMode = Player.REPEAT_MODE_OFF
+        mCallback?.setRepeatMode(Player.REPEAT_MODE_OFF)
 
+    }
+
+    fun setRepeatMode(repeatMode: Int) {
+        mExoPlayer.repeatMode = repeatMode
     }
 
 

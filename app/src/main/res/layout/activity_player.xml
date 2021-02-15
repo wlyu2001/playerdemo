@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -77,6 +78,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/fab_margin" />
+
+
+                <Button
+                    android:id="@+id/button_repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/fab_margin" />
+
+                <TextView
+                    android:id="@+id/textview_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>

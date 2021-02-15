@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.exoplayer2.Player
 import com.shishiapp.playerdemo.databinding.ActivityPlayerBinding
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.service.PlayerService
@@ -74,7 +75,13 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(viewDataBinding.root)
 
         viewDataBinding.buttonPlayPause.setOnClickListener {
-            playPause()
+            viewDataBinding.viewmodel?.let { viewModel ->
+                if (viewModel.isPlayingData.value == true) {
+                    playerService?.pause()
+                } else {
+                    playerService?.play()
+                }
+            }
         }
         viewDataBinding.seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -90,6 +97,18 @@ class PlayerActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seek: SeekBar?) {
             }
         })
+
+        viewDataBinding.buttonRepeat.setOnClickListener {
+            viewDataBinding.viewmodel?.let { viewModel ->
+
+                when (viewModel.repeatModeData.value) {
+                    Player.REPEAT_MODE_OFF -> playerService?.setRepeatMode(Player.REPEAT_MODE_ALL)
+                    Player.REPEAT_MODE_ALL -> playerService?.setRepeatMode(Player.REPEAT_MODE_ONE)
+                    Player.REPEAT_MODE_ONE -> playerService?.setRepeatMode(Player.REPEAT_MODE_OFF)
+                }
+            }
+        }
+
 
         viewDataBinding.viewmodel?.let { viewModel ->
 
@@ -110,8 +129,58 @@ class PlayerActivity : AppCompatActivity() {
                     if (it) getString(R.string.pause) else getString(R.string.play)
             })
 
+            viewModel.playerStateData.observe(this, {
+                viewDataBinding.textviewStatus.text =
+
+                    when (it) {
+                        Player.STATE_BUFFERING -> {
+                            getString(R.string.buffering)
+                        }
+
+                        Player.STATE_READY -> {
+                            getString(R.string.ready)
+                        }
+
+                        Player.STATE_ENDED -> {
+                            getString(R.string.ended)
+                        }
+
+                        Player.STATE_IDLE -> {
+                            getString(R.string.idle)
+                        }
+                        else -> ""
+                    }
+
+                if (it == Player.STATE_ENDED) {
+                    playerService?.seekTo(0)
+                    playerService?.pause()
+
+                }
+            })
+
+            viewModel.repeatModeData.observe(this, {
+                viewDataBinding.buttonRepeat.text =
+                    when (it) {
+                        Player.REPEAT_MODE_OFF -> {
+                            getString(R.string.repeat_off)
+                        }
+
+                        Player.REPEAT_MODE_ONE -> {
+                            getString(R.string.repeat_one)
+                        }
+
+                        Player.REPEAT_MODE_ALL -> {
+                            getString(R.string.repeat_all)
+                        }
+
+                        else -> ""
+                    }
+            })
+
+
             viewModel.currentVideo.observe(this, { video ->
                 playerService?.loadVideo(video)
+                playerService?.play()
             })
         }
 
@@ -125,19 +194,6 @@ class PlayerActivity : AppCompatActivity() {
                 connection,
                 Context.BIND_AUTO_CREATE
             )
-        }
-    }
-
-
-    private fun playPause() {
-        val viewModel = viewDataBinding.viewmodel
-
-        if (viewModel != null) {
-            if (viewModel.isPlayingData.value == true) {
-                playerService?.pause()
-            } else {
-                playerService?.play()
-            }
         }
     }
 
