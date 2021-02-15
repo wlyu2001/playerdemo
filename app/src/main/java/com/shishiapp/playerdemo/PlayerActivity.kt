@@ -183,11 +183,10 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.setRepeatMode(Player.REPEAT_MODE_OFF)
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForegroundService(Intent(this, PlayerService::class.java))
-        } else {
-            startService(Intent(this, PlayerService::class.java))
-        }
+        // startService is needed if we want to play in the background
+        // no need to call startForegroundService, because PlayerNotificationManager will call startForeground inside the Service
+
+        startService(Intent(this, PlayerService::class.java))
 
         bindPlayerService()
     }
@@ -201,11 +200,5 @@ class PlayerActivity : AppCompatActivity() {
             )
         }
     }
-
-
-    fun stop() {
-
-    }
-
 
 }

@@ -17,13 +17,11 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
-import com.shishiapp.playerdemo.PlayerActivity
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.playerIntent
 import com.squareup.picasso.Picasso
-import java.lang.Exception
 
 
 private const val PLAYBACK_CHANNEL_ID = "playback_channel"
@@ -34,7 +32,7 @@ class PlayerService : Service(), Player.EventListener {
     private lateinit var player: SimpleExoPlayer
     private val binder = PlayerServiceBinder()
     private var callback: OnPlayerServiceCallback? = null
-    private var playerNotificationManager: PlayerNotificationManager? = null
+    private lateinit var playerNotificationManager: PlayerNotificationManager
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
 
@@ -49,10 +47,7 @@ class PlayerService : Service(), Player.EventListener {
         super.onCreate()
 
         player = SimpleExoPlayer.Builder(this).build()
-
         player.addListener(this)
-
-
 
         playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
             applicationContext,
@@ -85,13 +80,14 @@ class PlayerService : Service(), Player.EventListener {
                     callback: PlayerNotificationManager.BitmapCallback
                 ): Bitmap? {
                     loadBitmap(video?.art, callback)
-                    return null //or stub image
+                    return null
                 }
             },
             object : PlayerNotificationManager.NotificationListener {
 
                 override fun onNotificationCancelled(notificationId: Int) {
-//                    _playerStatusLiveData.value = PlayerStatus.Cancelled(episodeId)
+                    // this will not immediately stop the service if the binding activity is still there.
+                    // After calling this, the next time the activity is finished, the service will stop.
 
                     stopSelf()
                 }
@@ -104,6 +100,7 @@ class PlayerService : Service(), Player.EventListener {
                     if (ongoing) {
                         startForeground(notificationId, notification)
                     } else {
+                        // if audio is paused, then stopForeground. it can be killed by dismissing notification
                         stopForeground(false)
                     }
                 }
@@ -130,6 +127,13 @@ class PlayerService : Service(), Player.EventListener {
 
     override fun onBind(intent: Intent?): IBinder {
         return binder
+    }
+
+    override fun onDestroy() {
+        playerNotificationManager.setPlayer(null)
+        player.release()
+
+        super.onDestroy()
     }
 
 
