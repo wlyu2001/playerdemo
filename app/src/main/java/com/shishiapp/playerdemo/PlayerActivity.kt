@@ -128,7 +128,7 @@ class PlayerActivity : AppCompatActivity() {
             })
 
             viewModel.playerStateData.observe(this, {
-                viewDataBinding.textviewStatus.text =
+                viewDataBinding.textviewState.text =
 
                     when (it) {
                         Player.STATE_BUFFERING -> {
