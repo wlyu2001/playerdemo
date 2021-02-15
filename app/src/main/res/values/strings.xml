@@ -19,4 +19,6 @@
     <string name="repeat_off">Repeat Off</string>
     <string name="repeat_one">Repeat One</string>
     <string name="repeat_all">Repeat All</string>
+    <string name="playback_channel_name">Plex Channel</string>
+    <string name="playback_channel_description">Plex Demo App</string>
 </resources>

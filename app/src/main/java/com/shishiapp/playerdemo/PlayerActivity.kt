@@ -21,9 +21,7 @@ private const val INTENT_VIDEO_KEY = "video_key"
 
 fun Context.playerIntent(video: Video): Intent {
     return Intent(this, PlayerActivity::class.java).apply {
-
         putExtra(INTENT_VIDEO_KEY, video.key)
-
     }
 }
 
@@ -180,8 +178,15 @@ class PlayerActivity : AppCompatActivity() {
 
             viewModel.currentVideo.observe(this, { video ->
                 playerService?.loadVideo(video)
-                playerService?.play()
             })
+
+            viewModel.setRepeatMode(Player.REPEAT_MODE_OFF)
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, PlayerService::class.java))
+        } else {
+            startService(Intent(this, PlayerService::class.java))
         }
 
         bindPlayerService()

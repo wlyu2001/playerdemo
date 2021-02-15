@@ -1,37 +1,162 @@
 package com.shishiapp.playerdemo.service
 
+import android.app.Notification
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
+import android.support.v4.media.session.MediaSessionCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
+import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import com.shishiapp.playerdemo.PlayerActivity
+import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.network.PlexService
+import com.shishiapp.playerdemo.playerIntent
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
+
+private const val PLAYBACK_CHANNEL_ID = "playback_channel"
+private const val PLAYBACK_NOTIFICATION_ID = 1
+private const val MEDIA_SESSION_TAG = "media_session"
 
 class PlayerService : Service(), Player.EventListener {
-    private lateinit var mExoPlayer: SimpleExoPlayer
-    private val mBinder = PlayerServiceBinder()
-    private var mCallback: OnPlayerServiceCallback? = null
+    private lateinit var player: SimpleExoPlayer
+    private val binder = PlayerServiceBinder()
+    private var callback: OnPlayerServiceCallback? = null
+    private var playerNotificationManager: PlayerNotificationManager? = null
+    private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var mediaSessionConnector: MediaSessionConnector
 
     private val handler = Handler()
     private var durationSet = false
     private var playing = false
 
+    private var video: Video? = null
+
+
     override fun onCreate() {
         super.onCreate()
 
-        mExoPlayer = SimpleExoPlayer.Builder(this).build()
+        player = SimpleExoPlayer.Builder(this).build()
 
-        mExoPlayer.addListener(this)
+        player.addListener(this)
+
+
+
+        playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
+            applicationContext,
+            PLAYBACK_CHANNEL_ID,
+            R.string.playback_channel_name,
+            R.string.playback_channel_description,
+            PLAYBACK_NOTIFICATION_ID,
+            object : PlayerNotificationManager.MediaDescriptionAdapter {
+                override fun getCurrentContentTitle(player: Player): CharSequence {
+                    return video?.title ?: ""
+                }
+
+                override fun createCurrentContentIntent(player: Player): PendingIntent? =
+                    video?.let {
+                        PendingIntent.getActivity(
+                            applicationContext,
+                            0,
+                            playerIntent(it),
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                    }
+
+
+                override fun getCurrentContentText(player: Player): CharSequence? {
+                    return null
+                }
+
+                override fun getCurrentLargeIcon(
+                    player: Player,
+                    callback: PlayerNotificationManager.BitmapCallback
+                ): Bitmap? {
+                    loadBitmap(video?.art, callback)
+                    return null //or stub image
+                }
+            },
+            object : PlayerNotificationManager.NotificationListener {
+
+                override fun onNotificationCancelled(notificationId: Int) {
+//                    _playerStatusLiveData.value = PlayerStatus.Cancelled(episodeId)
+
+                    stopSelf()
+                }
+
+                override fun onNotificationPosted(
+                    notificationId: Int,
+                    notification: Notification,
+                    ongoing: Boolean
+                ) {
+                    if (ongoing) {
+                        startForeground(notificationId, notification)
+                    } else {
+                        stopForeground(false)
+                    }
+                }
+            }
+        ).apply {
+            setUseNextAction(false)
+            setUsePreviousAction(false)
+            setUseStopAction(false)
+
+            setPlayer(player)
+        }
+
+
+        mediaSession = MediaSessionCompat(this, MEDIA_SESSION_TAG).apply {
+            isActive = true
+        }
+
+        playerNotificationManager?.setMediaSessionToken(mediaSession.sessionToken)
+
+        mediaSessionConnector = MediaSessionConnector(mediaSession).apply {
+            setPlayer(player)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder {
-        return mBinder
+        return binder
+    }
+
+
+    private fun loadBitmap(art: String?, callback: PlayerNotificationManager.BitmapCallback?) {
+        if (art == null) {
+            callback?.onBitmap(BitmapFactory.decodeResource(resources, R.drawable.plex_logo))
+        } else {
+            Picasso.get().load(PlexService.getMediaUrl(art))
+                .into(object : com.squareup.picasso.Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        callback?.onBitmap(
+                            bitmap ?: BitmapFactory.decodeResource(
+                                resources,
+                                R.drawable.plex_logo
+                            )
+                        )
+                    }
+
+                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                    }
+                })
+
+        }
+
     }
 
 
@@ -39,28 +164,28 @@ class PlayerService : Service(), Player.EventListener {
         val service: PlayerService
             get() = this@PlayerService
         val player: ExoPlayer
-            get() = mExoPlayer
+            get() = this@PlayerService.player
     }
 
     fun addListener(callback: OnPlayerServiceCallback) {
-        mCallback = callback
+        this.callback = callback
     }
 
     fun removeListener() {
-        mCallback = null
+        callback = null
     }
 
 
     fun play() {
-        mExoPlayer.playWhenReady = true
+        player.playWhenReady = true
     }
 
     fun seekTo(position: Long) {
-        mExoPlayer.seekTo(position)
+        player.seekTo(position)
     }
 
     fun pause() {
-        mExoPlayer.playWhenReady = false
+        player.playWhenReady = false
     }
 
 
@@ -70,7 +195,7 @@ class PlayerService : Service(), Player.EventListener {
             handler.postDelayed(object : Runnable {
                 override fun run() {
                     if (playing) {
-                        mCallback?.setPosition(mExoPlayer.currentPosition)
+                        callback?.setPosition(player.currentPosition)
                         handler.postDelayed(this, 100)
                     }
                 }
@@ -79,30 +204,30 @@ class PlayerService : Service(), Player.EventListener {
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
-        mCallback?.setRepeatMode(repeatMode)
+        callback?.setRepeatMode(repeatMode)
     }
 
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-        mCallback?.setIsPlaying(playWhenReady)
+        callback?.setIsPlaying(playWhenReady)
     }
 
 
     override fun onPlaybackStateChanged(state: Int) {
 
-        mCallback?.setPlayerState(state)
+        callback?.setPlayerState(state)
 
         when (state) {
             Player.STATE_READY -> {
                 if (!durationSet) {
                     durationSet = true
-                    mCallback?.setDuration(mExoPlayer.duration)
+                    callback?.setDuration(player.duration)
                 }
             }
 
             Player.STATE_ENDED -> {
-                mExoPlayer.seekTo(0)
-                mExoPlayer.playWhenReady = false
-                mCallback?.setPosition(0)
+                player.seekTo(0)
+                player.playWhenReady = false
+                callback?.setPosition(0)
             }
 
             else -> {
@@ -110,29 +235,35 @@ class PlayerService : Service(), Player.EventListener {
             }
 
         }
-
-
-//        mNotificationManager?.generateNotification()
     }
 
 
     fun loadVideo(video: Video?) {
-        val part = video?.media?.get(0)?.parts?.get(0)
-        if (part != null) {
-            val mediaItem = MediaItem.fromUri(PlexService.getMediaUrl(part.key))
-
-            mExoPlayer.addMediaItem(mediaItem)
-
-
+        if (this.video?.key != video?.key) {
+            this.video = video
+            val part = video?.media?.get(0)?.parts?.get(0)
+            if (part != null) {
+                val mediaItem = MediaItem.fromUri(PlexService.getMediaUrl(part.key))
+                player.addMediaItem(mediaItem)
+            }
+            player.prepare()
+            player.playWhenReady = true
+            player.repeatMode = Player.REPEAT_MODE_OFF
+        } else {
+            callback?.setDuration(player.duration)
+            callback?.setPlayerState(player.playbackState)
+            callback?.setIsPlaying(player.playWhenReady)
+            callback?.setRepeatMode(player.repeatMode)
         }
-        mExoPlayer.prepare()
-        mExoPlayer.repeatMode = Player.REPEAT_MODE_OFF
-        mCallback?.setRepeatMode(Player.REPEAT_MODE_OFF)
 
     }
 
     fun setRepeatMode(repeatMode: Int) {
-        mExoPlayer.repeatMode = repeatMode
+        player.repeatMode = repeatMode
+    }
+
+    private fun releasePlayer() {
+        mediaSession.release()
     }
 
 
