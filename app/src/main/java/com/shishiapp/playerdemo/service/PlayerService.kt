@@ -132,6 +132,7 @@ class PlayerService : Service(), Player.EventListener {
     override fun onDestroy() {
         playerNotificationManager.setPlayer(null)
         player.release()
+        mediaSession.release()
 
         super.onDestroy()
     }
@@ -265,10 +266,5 @@ class PlayerService : Service(), Player.EventListener {
     fun setRepeatMode(repeatMode: Int) {
         player.repeatMode = repeatMode
     }
-
-    private fun releasePlayer() {
-        mediaSession.release()
-    }
-
 
 }
