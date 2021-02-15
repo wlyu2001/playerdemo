@@ -11,4 +11,5 @@
     <string name="token_hint">Token</string>
     <string name="duration_string">Duration: %s</string>
     <string name="play">Play</string>
+    <string name="pause">Pause</string>
 </resources>

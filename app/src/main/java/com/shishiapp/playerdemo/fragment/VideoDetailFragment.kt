@@ -12,9 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.FragmentVideoDetailBinding
 import com.shishiapp.playerdemo.network.PlexService
+import com.shishiapp.playerdemo.playerIntent
+import com.shishiapp.playerdemo.toDurationString
 import com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -46,19 +47,15 @@ class VideoDetailFragment : Fragment() {
         if (viewModel != null) {
             arguments?.let { it.getString("key")?.let { it1 -> viewModel.fetchContentDetail(it1) } }
 
-            viewModel.contentDetailLive.observe(viewLifecycleOwner, { content ->
-                Picasso.get().load(PlexService.getMediaUrl(content.art)).into(imageViewArt)
-                textViewTitle.text = content.title
+            viewModel.contentDetailLive.observe(viewLifecycleOwner, { video ->
+                Picasso.get().load(PlexService.getMediaUrl(video.art)).into(imageViewArt)
+                textViewTitle.text = video.title
                 textViewDuration.text = getString(
-                    R.string.duration_string, SimpleDateFormat("hh:mm:ss").format(
-                        Date(
-                            content.duration
-                        )
-                    )
+                    R.string.duration_string, video.duration.toDurationString()
                 )
 
                 view.findViewById<Button>(R.id.button_play).setOnClickListener {
-
+                    startActivity(activity?.playerIntent(video))
                 }
             })
         }

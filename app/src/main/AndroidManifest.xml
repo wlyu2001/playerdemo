@@ -14,10 +14,6 @@
         android:theme="@style/Theme.PlayerDemo"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".PlayerActivity"
-            android:label="@string/title_activity_player"
-            android:theme="@style/Theme.PlayerDemo.NoActionBar"></activity>
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.PlayerDemo.NoActionBar">
@@ -27,6 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".PlayerActivity"
+            android:label="@string/title_activity_player"
+            android:theme="@style/Theme.PlayerDemo.NoActionBar" />
+
+        <service android:name=".service.PlayerService" />
     </application>
 
 </manifest>

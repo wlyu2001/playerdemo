@@ -3,7 +3,6 @@
 <layout>
 
     <data>
-
         <import type="android.view.View" />
 
         <variable

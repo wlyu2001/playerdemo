@@ -63,7 +63,7 @@ open class Video : RealmObject() {
     var art = ""
 
     @field:ElementList(entry = "Media", inline = true, required = false)
-    var media = RealmList<String>()
+    var media = RealmList<Media>()
 
     @field:ElementList(entry = "Genre", inline = true, required = false)
     var genres = RealmList<String>()
