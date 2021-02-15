@@ -100,7 +100,7 @@ class PlayerService : Service(), Player.EventListener {
                     if (ongoing) {
                         startForeground(notificationId, notification)
                     } else {
-                        // if audio is paused, then stopForeground. it can be killed by dismissing notification
+                        // Here stopForeground is called when the player is paused. The notification can then be dismissed.
                         stopForeground(false)
                     }
                 }

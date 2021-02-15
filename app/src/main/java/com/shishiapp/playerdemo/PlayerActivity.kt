@@ -77,6 +77,8 @@ class PlayerActivity : AppCompatActivity() {
                 if (viewModel.isPlayingData.value == true) {
                     playerService?.pause()
                 } else {
+                    // Here, we need to startService again in case the user pauses playback and dismiss notification (stopSelf) which turns a started and bound service into a merely bound service.
+                    startService(Intent(this, PlayerService::class.java))
                     playerService?.play()
                 }
             }
