@@ -110,6 +110,7 @@ class PlayerService : Service(), Player.EventListener {
             setUsePreviousAction(false)
             setUseStopAction(false)
 
+
             setPlayer(player)
         }
 
@@ -130,9 +131,10 @@ class PlayerService : Service(), Player.EventListener {
     }
 
     override fun onDestroy() {
+        mediaSession.release()
+        mediaSessionConnector.setPlayer(null)
         playerNotificationManager.setPlayer(null)
         player.release()
-        mediaSession.release()
 
         super.onDestroy()
     }

@@ -10,8 +10,6 @@ interface PlayerServiceCallback {
     // this is actually playWhenReady.
     fun setIsPlaying(isPlaying: Boolean)
 
-    fun stopService()
-
     fun setPosition(currentPosition: Long)
 
     fun setDuration(duration: Long)

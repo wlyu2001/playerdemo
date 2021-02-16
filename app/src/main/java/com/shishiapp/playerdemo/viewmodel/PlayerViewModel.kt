@@ -18,7 +18,8 @@ class PlayerViewModel : ViewModel(), PlayerServiceCallback {
     val playerStateData = MutableLiveData<Int>()
     val repeatModeData = MutableLiveData<Int>()
 
-    val currentVideo = MutableLiveData<Video>()
+    val currentVideoData = MutableLiveData<Video>()
+
     override fun setRepeatMode(repeatMode: Int) {
         repeatModeData.value = repeatMode
     }
@@ -31,10 +32,6 @@ class PlayerViewModel : ViewModel(), PlayerServiceCallback {
         isPlayingData.value = isPlaying
     }
 
-    override fun stopService() {
-
-    }
-
     override fun setPosition(currentPosition: Long) {
         positionData.value = currentPosition
     }
@@ -44,7 +41,7 @@ class PlayerViewModel : ViewModel(), PlayerServiceCallback {
     }
 
     fun setCurrentVideo(key: String?) {
-        currentVideo.value = realm.where<Video>().equalTo("key", key).findFirst()
+        currentVideoData.value = realm.where<Video>().equalTo("key", key).findFirst()
     }
 
 

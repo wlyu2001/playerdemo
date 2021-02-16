@@ -178,7 +178,7 @@ class PlayerActivity : AppCompatActivity() {
             })
 
 
-            viewModel.currentVideo.observe(this, { video ->
+            viewModel.currentVideoData.observe(this, { video ->
                 playerService?.loadVideo(video)
             })
 
