@@ -4,12 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.model.VideoList
-import com.shishiapp.playerdemo.network.PlexService
+import com.shishiapp.playerdemo.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoListViewModel @Inject constructor(private val plexService: PlexService)
+class VideoListViewModel @Inject constructor(private val repository: Repository)
     : ViewModel() {
 
     val dataLoading = MutableLiveData<Boolean>().apply { value = false }
@@ -19,7 +19,7 @@ class VideoListViewModel @Inject constructor(private val plexService: PlexServic
     fun fetchContentList(sectionId: Int) {
         dataLoading.value = true
 
-        plexService.get(
+        repository.get(
             VideoList.url(sectionId),
             VideoList::class.java,
             success = { contentList ->

@@ -12,20 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.FragmentVideoDetailBinding
 import com.shishiapp.playerdemo.getMediaUrl
-import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.playerIntent
 import com.shishiapp.playerdemo.toDurationString
 import com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class VideoDetailFragment : Fragment() {
-
-    @Inject
-    lateinit var plexService: PlexService
 
     private lateinit var viewDataBinding: FragmentVideoDetailBinding
 
