@@ -10,9 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.network.PlexService
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class StartFragment : Fragment() {
 
+    @Inject
+    lateinit var plexService: PlexService
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,9 +29,9 @@ class StartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.button_start).setOnClickListener {
-            PlexService.connect() { success ->
+            plexService.connect() { success ->
                 if (success) {
-                    PlexService.initService()
+                    plexService.initService()
                     findNavController().navigate(R.id.action_startFragment_to_sectionFragment)
                 } else {
                     Snackbar.make(view, "Can not connect", Snackbar.LENGTH_SHORT).show()

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'realm-android'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -65,4 +66,7 @@ dependencies {
 
     implementation 'com.google.android.exoplayer:exoplayer:2.13.0'
     implementation 'com.google.android.exoplayer:extension-mediasession:2.13.0'
+
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }

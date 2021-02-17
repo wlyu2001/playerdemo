@@ -3,17 +3,17 @@ package com.shishiapp.playerdemo.network
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
+import com.shishiapp.playerdemo.model.SectionList
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.model.VideoDetail
 import com.shishiapp.playerdemo.model.VideoList
-import com.shishiapp.playerdemo.model.SectionList
+import com.shishiapp.playerdemo.util.Constants
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.RealmModel
 import okhttp3.*
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
@@ -38,27 +38,18 @@ interface PlexAPI {
 
 }
 
-
-object PlexService {
-
+class PlexService constructor(private val realm: Realm) {
 
     lateinit var plexApi: PlexAPI
-    private var realm = Realm.getDefaultInstance()
-//    private var baseUrl = HttpUrl.parse("http://10.0.2.2:32400")!!
-    private var baseUrl = HttpUrl.parse("http://192.168.2.155:32400")!!
-    private val token = "XasryqPNGxgcHva-xAyf"
 
-    fun getMediaUrl(path: String): String {
-        return baseUrl.newBuilder().addEncodedPathSegments(path.removePrefix("/"))
-            .addQueryParameter("X-Plex-Token", this.token).build().toString()
-    }
+    private val baseUrl = HttpUrl.parse(Constants.baseUrl)!!
 
     fun connect(completion: (Boolean) -> Unit) {
 
         val client = OkHttpClient()
 
         val url = baseUrl.newBuilder()
-            .addQueryParameter("X-Plex-Token", token)
+            .addQueryParameter("X-Plex-Token", Constants.token)
             .build()
 
         val request = Request.Builder()
@@ -93,7 +84,7 @@ object PlexService {
 
                 val url =
                     request.url().newBuilder()
-                        .addQueryParameter("X-Plex-Token", token)
+                        .addQueryParameter("X-Plex-Token", Constants.token)
                         .build()
                 request = request.newBuilder().url(url).build()
                 chain.proceed(request)

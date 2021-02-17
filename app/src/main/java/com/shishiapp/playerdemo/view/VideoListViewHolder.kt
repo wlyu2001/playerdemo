@@ -7,9 +7,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.BR
 import com.shishiapp.playerdemo.R
+import com.shishiapp.playerdemo.getMediaUrl
 import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.network.PlexService
 import com.squareup.picasso.Picasso
+
 
 class VideoListViewHolder constructor(private val dataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(dataBinding.root) {
@@ -20,7 +21,8 @@ class VideoListViewHolder constructor(private val dataBinding: ViewDataBinding) 
         dataBinding.setVariable(BR.itemData, video)
         dataBinding.executePendingBindings()
 
-        Picasso.get().load(PlexService.getMediaUrl(video.thumb)).placeholder(R.drawable.plex_logo).into(thumbImageView)
+        Picasso.get().load(video.thumb.getMediaUrl()).placeholder(R.drawable.plex_logo)
+            .into(thumbImageView)
 
         itemView.setOnClickListener {
             val bundle = bundleOf("key" to video.key)

@@ -13,7 +13,9 @@ import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.adapter.SectionListAdapter
 import com.shishiapp.playerdemo.databinding.FragmentSectionListBinding
 import com.shishiapp.playerdemo.viewmodel.SectionListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SectionListFragment : Fragment() {
 
     private lateinit var viewDataBinding: FragmentSectionListBinding

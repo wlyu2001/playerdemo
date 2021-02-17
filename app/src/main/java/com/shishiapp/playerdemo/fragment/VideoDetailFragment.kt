@@ -11,15 +11,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.FragmentVideoDetailBinding
+import com.shishiapp.playerdemo.getMediaUrl
 import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.playerIntent
 import com.shishiapp.playerdemo.toDurationString
 import com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class VideoDetailFragment : Fragment() {
+
+    @Inject
+    lateinit var plexService: PlexService
 
     private lateinit var viewDataBinding: FragmentVideoDetailBinding
 
@@ -48,7 +54,7 @@ class VideoDetailFragment : Fragment() {
             arguments?.let { it.getString("key")?.let { it1 -> viewModel.fetchContentDetail(it1) } }
 
             viewModel.contentDetailLive.observe(viewLifecycleOwner, { video ->
-                Picasso.get().load(PlexService.getMediaUrl(video.art)).placeholder(R.drawable.plex_logo).into(imageViewArt)
+                Picasso.get().load(video.art.getMediaUrl()).placeholder(R.drawable.plex_logo).into(imageViewArt)
                 textViewTitle.text = video.title
                 textViewDuration.text = getString(
                     R.string.duration_string, video.duration.toDurationString()

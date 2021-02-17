@@ -13,7 +13,9 @@ import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.adapter.VideoListAdapter
 import com.shishiapp.playerdemo.databinding.FragmentVideoListBinding
 import com.shishiapp.playerdemo.viewmodel.VideoListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VideoListFragment : Fragment() {
 
     private lateinit var viewDataBinding: FragmentVideoListBinding

@@ -4,12 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.service.PlayerServiceCallback
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.realm.Realm
-import io.realm.kotlin.where
+import javax.inject.Inject
 
-class PlayerViewModel : ViewModel(), PlayerServiceCallback {
-
-    private var realm = Realm.getDefaultInstance()
+@HiltViewModel
+class PlayerViewModel @Inject constructor(private val realm: Realm) : ViewModel(),
+    PlayerServiceCallback {
 
     val durationData = MutableLiveData<Long>()
     val positionData = MutableLiveData<Long>()
@@ -41,7 +42,7 @@ class PlayerViewModel : ViewModel(), PlayerServiceCallback {
     }
 
     fun setCurrentVideo(key: String?) {
-        currentVideoData.value = realm.where<Video>().equalTo("key", key).findFirst()
+        currentVideoData.value = realm.where(Video::class.java).equalTo("key", key).findFirst()
     }
 
 

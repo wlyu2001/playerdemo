@@ -5,17 +5,22 @@ import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.model.VideoDetail
 import com.shishiapp.playerdemo.network.PlexService
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class VideoDetailViewModel : ViewModel() {
+@HiltViewModel
+class VideoDetailViewModel @Inject constructor(private val plexService: PlexService)
+    : ViewModel() {
 
     val dataLoading = MutableLiveData<Boolean>().apply { value = false }
 
     val contentDetailLive = MutableLiveData<Video>()
 
+
     fun fetchContentDetail(key: String) {
         dataLoading.value = true
 
-        PlexService.get(
+        plexService.get(
             VideoDetail.url(key),
             VideoDetail::class.java,
             success = { contentDetail ->

@@ -18,16 +18,21 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.shishiapp.playerdemo.R
+import com.shishiapp.playerdemo.getMediaUrl
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.playerIntent
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 private const val PLAYBACK_CHANNEL_ID = "playback_channel"
 private const val PLAYBACK_NOTIFICATION_ID = 1
 private const val MEDIA_SESSION_TAG = "media_session"
 
+
+@AndroidEntryPoint
 class PlayerService : Service(), Player.EventListener {
     private lateinit var player: SimpleExoPlayer
     private val binder = PlayerServiceBinder()
@@ -41,6 +46,9 @@ class PlayerService : Service(), Player.EventListener {
     private var playing = false
 
     private var video: Video? = null
+
+    @Inject
+    lateinit var plexService: PlexService
 
 
     override fun onCreate() {
@@ -144,7 +152,7 @@ class PlayerService : Service(), Player.EventListener {
         if (art == null) {
             callback?.onBitmap(BitmapFactory.decodeResource(resources, R.drawable.plex_logo))
         } else {
-            Picasso.get().load(PlexService.getMediaUrl(art))
+            Picasso.get().load(art.getMediaUrl())
                 .into(object : com.squareup.picasso.Target {
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                         callback?.onBitmap(
@@ -250,7 +258,7 @@ class PlayerService : Service(), Player.EventListener {
             this.video = video
             val part = video?.media?.get(0)?.parts?.get(0)
             if (part != null) {
-                val mediaItem = MediaItem.fromUri(PlexService.getMediaUrl(part.key))
+                val mediaItem = MediaItem.fromUri(part.key.getMediaUrl())
                 player.addMediaItem(mediaItem)
             }
             player.prepare()

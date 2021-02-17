@@ -14,6 +14,7 @@ import com.shishiapp.playerdemo.databinding.ActivityPlayerBinding
 import com.shishiapp.playerdemo.model.Video
 import com.shishiapp.playerdemo.service.PlayerService
 import com.shishiapp.playerdemo.viewmodel.PlayerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 
@@ -25,11 +26,7 @@ fun Context.playerIntent(video: Video): Intent {
     }
 }
 
-fun Long.toDurationString(): String {
-    val secs: Long = this / 1000
-    return String.format("%02d:%02d:%02d", secs / 3600, secs % 3600 / 60, secs % 60)
-}
-
+@AndroidEntryPoint
 class PlayerActivity : AppCompatActivity() {
 
 
