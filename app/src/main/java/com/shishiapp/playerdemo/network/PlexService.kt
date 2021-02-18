@@ -1,9 +1,9 @@
 package com.shishiapp.playerdemo.network
 
-import com.shishiapp.playerdemo.model.SectionList
-import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.model.VideoDetail
-import com.shishiapp.playerdemo.model.VideoList
+import com.shishiapp.playerdemo.network.model.SectionList
+import com.shishiapp.playerdemo.network.model.Video
+import com.shishiapp.playerdemo.network.model.VideoDetail
+import com.shishiapp.playerdemo.network.model.VideoList
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path

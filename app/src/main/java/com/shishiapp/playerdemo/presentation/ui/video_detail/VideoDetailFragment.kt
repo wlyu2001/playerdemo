@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.fragment
+package com.shishiapp.playerdemo.presentation.ui.video_detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.FragmentVideoDetailBinding
 import com.shishiapp.playerdemo.getMediaUrl
-import com.shishiapp.playerdemo.playerIntent
+import com.shishiapp.playerdemo.presentation.ui.player.playerIntent
 import com.shishiapp.playerdemo.toDurationString
-import com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*

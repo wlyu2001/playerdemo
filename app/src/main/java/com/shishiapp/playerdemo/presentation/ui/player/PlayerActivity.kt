@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo
+package com.shishiapp.playerdemo.presentation.ui.player
 
 import android.content.ComponentName
 import android.content.Context
@@ -10,10 +10,11 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.exoplayer2.Player
+import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.databinding.ActivityPlayerBinding
-import com.shishiapp.playerdemo.model.Video
+import com.shishiapp.playerdemo.network.model.Video
 import com.shishiapp.playerdemo.service.PlayerService
-import com.shishiapp.playerdemo.viewmodel.PlayerViewModel
+import com.shishiapp.playerdemo.toDurationString
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

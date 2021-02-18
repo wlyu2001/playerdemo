@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.fragment
+package com.shishiapp.playerdemo.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

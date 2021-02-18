@@ -7,7 +7,7 @@
 
         <variable
             name="viewmodel"
-            type="com.shishiapp.playerdemo.viewmodel.VideoDetailViewModel" />
+            type="com.shishiapp.playerdemo.presentation.ui.video_detail.VideoDetailViewModel" />
     </data>
 
 

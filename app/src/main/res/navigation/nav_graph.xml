@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.shishiapp.playerdemo.fragment.StartFragment"
+        android:name="com.shishiapp.playerdemo.presentation.ui.StartFragment"
         android:label="Demo"
         tools:layout="@layout/fragment_video_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/sectionListFragment"
-        android:name="com.shishiapp.playerdemo.fragment.SectionListFragment"
+        android:name="com.shishiapp.playerdemo.presentation.ui.section_list.SectionListFragment"
         android:label="Sections"
         tools:layout="@layout/fragment_section_list" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoListFragment"
-        android:name="com.shishiapp.playerdemo.fragment.VideoListFragment"
+        android:name="com.shishiapp.playerdemo.presentation.ui.video_list.VideoListFragment"
         android:label="Videos"
         tools:layout="@layout/fragment_video_list" >
         <action
@@ -34,6 +34,6 @@
     </fragment>
     <fragment
         android:id="@+id/videoDetailFragment"
-        android:name="com.shishiapp.playerdemo.fragment.VideoDetailFragment"
+        android:name="com.shishiapp.playerdemo.presentation.ui.video_detail.VideoDetailFragment"
         android:label="Detail" />
 </navigation>

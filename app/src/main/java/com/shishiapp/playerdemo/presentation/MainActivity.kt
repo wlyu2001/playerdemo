@@ -1,9 +1,10 @@
-package com.shishiapp.playerdemo
+package com.shishiapp.playerdemo.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.shishiapp.playerdemo.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

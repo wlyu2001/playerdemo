@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo
+package com.shishiapp.playerdemo.presentation
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

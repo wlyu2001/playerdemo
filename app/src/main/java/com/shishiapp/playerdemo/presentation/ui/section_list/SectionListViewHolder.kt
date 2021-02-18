@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.view
+package com.shishiapp.playerdemo.presentation.ui.section_list
 
 import androidx.core.os.bundleOf
 import androidx.databinding.ViewDataBinding
@@ -6,7 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.BR
 import com.shishiapp.playerdemo.R
-import com.shishiapp.playerdemo.model.Section
+import com.shishiapp.playerdemo.network.model.Section
 
 class SectionListViewHolder constructor(private val dataBinding: ViewDataBinding) :
     RecyclerView.ViewHolder(dataBinding.root) {

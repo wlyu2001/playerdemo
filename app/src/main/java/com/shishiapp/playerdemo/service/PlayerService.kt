@@ -19,12 +19,10 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.getMediaUrl
-import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.network.PlexService
-import com.shishiapp.playerdemo.playerIntent
+import com.shishiapp.playerdemo.network.model.Video
+import com.shishiapp.playerdemo.presentation.ui.player.playerIntent
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 private const val PLAYBACK_CHANNEL_ID = "playback_channel"
@@ -46,9 +44,6 @@ class PlayerService : Service(), Player.EventListener {
     private var playing = false
 
     private var video: Video? = null
-
-    @Inject
-    lateinit var plexService: PlexService
 
 
     override fun onCreate() {
@@ -80,6 +75,7 @@ class PlayerService : Service(), Player.EventListener {
 
 
                 override fun getCurrentContentText(player: Player): CharSequence? {
+
                     return null
                 }
 

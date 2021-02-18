@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.model
+package com.shishiapp.playerdemo.network.model
 
 import io.realm.RealmList
 import io.realm.RealmObject

@@ -1,11 +1,10 @@
-package com.shishiapp.playerdemo.adapter
+package com.shishiapp.playerdemo.presentation.ui.video_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.databinding.ViewVideoListItemBinding
-import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.view.VideoListViewHolder
+import com.shishiapp.playerdemo.network.model.Video
 
 class VideoListAdapter : RecyclerView.Adapter<VideoListViewHolder>() {
 

@@ -1,9 +1,9 @@
-package com.shishiapp.playerdemo.viewmodel
+package com.shishiapp.playerdemo.presentation.ui.section_list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shishiapp.playerdemo.model.Section
-import com.shishiapp.playerdemo.model.SectionList
+import com.shishiapp.playerdemo.network.model.Section
+import com.shishiapp.playerdemo.network.model.SectionList
 import com.shishiapp.playerdemo.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

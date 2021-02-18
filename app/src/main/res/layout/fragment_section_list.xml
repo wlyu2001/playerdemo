@@ -7,14 +7,14 @@
 
         <variable
             name="viewmodel"
-            type="com.shishiapp.playerdemo.viewmodel.SectionListViewModel" />
+            type="com.shishiapp.playerdemo.presentation.ui.section_list.SectionListViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.SectionListFragment">
+        tools:context=".presentation.ui.section_list.SectionListFragment">
 
 
         <androidx.recyclerview.widget.RecyclerView

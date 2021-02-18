@@ -1,6 +1,6 @@
 package com.shishiapp.playerdemo.repository
 
-import com.shishiapp.playerdemo.model.Video
+import com.shishiapp.playerdemo.network.model.Video
 import io.realm.RealmModel
 
 interface Repository {

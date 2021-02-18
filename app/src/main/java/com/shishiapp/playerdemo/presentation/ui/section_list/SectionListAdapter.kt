@@ -1,11 +1,10 @@
-package com.shishiapp.playerdemo.adapter
+package com.shishiapp.playerdemo.presentation.ui.section_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.databinding.ViewSectionListItemBinding
-import com.shishiapp.playerdemo.model.Section
-import com.shishiapp.playerdemo.view.SectionListViewHolder
+import com.shishiapp.playerdemo.network.model.Section
 
 class SectionListAdapter : RecyclerView.Adapter<SectionListViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.fragment
+package com.shishiapp.playerdemo.presentation.ui.section_list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.R
-import com.shishiapp.playerdemo.adapter.SectionListAdapter
 import com.shishiapp.playerdemo.databinding.FragmentSectionListBinding
-import com.shishiapp.playerdemo.viewmodel.SectionListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

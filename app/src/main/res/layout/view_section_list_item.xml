@@ -6,7 +6,7 @@
 
         <variable
             name="itemData"
-            type="com.shishiapp.playerdemo.model.Section" />
+            type="com.shishiapp.playerdemo.network.model.Section" />
     </data>
 
     <RelativeLayout

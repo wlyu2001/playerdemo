@@ -1,9 +1,9 @@
-package com.shishiapp.playerdemo.viewmodel
+package com.shishiapp.playerdemo.presentation.ui.video_list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shishiapp.playerdemo.model.Video
-import com.shishiapp.playerdemo.model.VideoList
+import com.shishiapp.playerdemo.network.model.Video
+import com.shishiapp.playerdemo.network.model.VideoList
 import com.shishiapp.playerdemo.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

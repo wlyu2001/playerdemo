@@ -1,4 +1,4 @@
-package com.shishiapp.playerdemo.view
+package com.shishiapp.playerdemo.presentation.ui.video_list
 
 import android.widget.ImageView
 import androidx.core.os.bundleOf
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shishiapp.playerdemo.BR
 import com.shishiapp.playerdemo.R
 import com.shishiapp.playerdemo.getMediaUrl
-import com.shishiapp.playerdemo.model.Video
+import com.shishiapp.playerdemo.network.model.Video
 import com.squareup.picasso.Picasso
 
 
