@@ -48,7 +48,7 @@
                         android:id="@+id/position"
                         android:layout_width="@dimen/seekbar_text_width"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
+                        android:textAlignment="viewEnd"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +57,7 @@
                         android:id="@+id/duration"
                         android:layout_width="@dimen/seekbar_text_width"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

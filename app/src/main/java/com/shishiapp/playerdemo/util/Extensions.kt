@@ -5,7 +5,12 @@ import okhttp3.HttpUrl
 
 fun Long.toDurationString(): String {
     val secs: Long = this / 1000
-    return String.format("%02d:%02d:%02d", secs / 3600, secs % 3600 / 60, secs % 60)
+
+    if(secs / 3600 >= 1) {
+        return String.format("%d:%02d:%02d", secs / 3600, secs % 3600 / 60, secs % 60)
+    } else {
+        return String.format("%d:%02d", secs % 3600 / 60, secs % 60)
+    }
 }
 
 fun String.getMediaUrl(): String {
