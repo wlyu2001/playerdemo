@@ -33,7 +33,7 @@ class RepositoryImp(private val plexService: PlexService, private val realm: Rea
             else -> null
         }
 
-        observable?.subscribeOn(Schedulers.newThread())?.observeOn(AndroidSchedulers.mainThread())
+        observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe({ response ->
                 realm.beginTransaction()
                 realm.insertOrUpdate(response)
