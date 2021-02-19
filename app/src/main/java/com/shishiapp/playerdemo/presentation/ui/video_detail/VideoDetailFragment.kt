@@ -47,7 +47,7 @@ class VideoDetailFragment : Fragment() {
         if (viewModel != null) {
             arguments?.let { it.getString("key")?.let { it1 -> viewModel.fetchContentDetail(it1) } }
 
-            viewModel.contentDetailLive.observe(viewLifecycleOwner, { video ->
+            viewModel.contentDetailData.observe(viewLifecycleOwner, { video ->
                 Picasso.get().load(video.art.getMediaUrl()).placeholder(R.drawable.plex_logo).into(imageViewArt)
                 textViewTitle.text = video.title
                 textViewDuration.text = getString(

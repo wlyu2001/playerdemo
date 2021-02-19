@@ -10,18 +10,18 @@ import javax.inject.Inject
 @HiltViewModel
 class SectionListViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val dataLoading = MutableLiveData<Boolean>().apply { value = false }
+    val dataLoadingData = MutableLiveData<Boolean>().apply { value = false }
 
-    val sectionListLive = MutableLiveData<List<Section>>()
+    val sectionListData = MutableLiveData<List<Section>>()
 
     fun fetchSectionList() {
-        dataLoading.value = true
+        dataLoadingData.value = true
 
         repository.getSectionList({
-            dataLoading.value = false
-            sectionListLive.value = it
+            dataLoadingData.value = false
+            sectionListData.value = it
         }){
-            dataLoading.value = false
+            dataLoadingData.value = false
         }
     }
 

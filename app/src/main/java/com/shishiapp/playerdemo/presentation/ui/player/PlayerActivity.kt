@@ -124,11 +124,6 @@ class PlayerActivity : AppCompatActivity() {
                 viewDataBinding.position.text = it.toDurationString()
             })
 
-            viewModel.isPlayingData.observe(this, {
-                viewDataBinding.buttonPlayPause.text =
-                    if (it) getString(R.string.pause) else getString(R.string.play)
-            })
-
             viewModel.playerStateData.observe(this, {
                 viewDataBinding.textviewState.text =
 

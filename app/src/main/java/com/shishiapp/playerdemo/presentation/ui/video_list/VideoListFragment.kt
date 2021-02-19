@@ -40,7 +40,7 @@ class VideoListFragment : Fragment() {
         if (viewModel != null) {
             arguments?.let { viewModel.fetchContentList(it.getInt("key")) }
 
-            viewModel.contentListLive.observe(viewLifecycleOwner, {
+            viewModel.contentListData.observe(viewLifecycleOwner, {
                 adapter.updateVideoList(it)
             })
 

@@ -41,7 +41,7 @@ class SectionListFragment : Fragment() {
         if (viewModel != null) {
             viewModel.fetchSectionList()
 
-            viewModel.sectionListLive.observe(viewLifecycleOwner, {
+            viewModel.sectionListData.observe(viewLifecycleOwner, {
                 adapter.updateSectionList(it)
             })
 

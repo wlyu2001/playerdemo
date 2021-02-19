@@ -11,18 +11,18 @@ import javax.inject.Inject
 class VideoListViewModel @Inject constructor(private val repository: Repository)
     : ViewModel() {
 
-    val dataLoading = MutableLiveData<Boolean>().apply { value = false }
+    val dataLoadingData = MutableLiveData<Boolean>().apply { value = false }
 
-    val contentListLive = MutableLiveData<List<Video>>()
+    val contentListData = MutableLiveData<List<Video>>()
 
     fun fetchContentList(sectionId: Int) {
-        dataLoading.value = true
+        dataLoadingData.value = true
 
         repository.getVideoList(sectionId, {
-            dataLoading.value = false
-            contentListLive.value = it
+            dataLoadingData.value = false
+            contentListData.value = it
         }) {
-            dataLoading.value = false
+            dataLoadingData.value = false
         }
     }
 

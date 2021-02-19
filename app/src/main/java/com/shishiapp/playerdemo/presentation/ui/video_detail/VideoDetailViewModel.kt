@@ -3,7 +3,6 @@ package com.shishiapp.playerdemo.presentation.ui.video_detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.network.model.Video
-import com.shishiapp.playerdemo.network.model.VideoDetail
 import com.shishiapp.playerdemo.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,19 +11,19 @@ import javax.inject.Inject
 class VideoDetailViewModel @Inject constructor(private val repository: Repository)
     : ViewModel() {
 
-    val dataLoading = MutableLiveData<Boolean>().apply { value = false }
+    val dataLoadingData = MutableLiveData<Boolean>().apply { value = false }
 
-    val contentDetailLive = MutableLiveData<Video>()
+    val contentDetailData = MutableLiveData<Video>()
 
 
     fun fetchContentDetail(key: String) {
-        dataLoading.value = true
+        dataLoadingData.value = true
 
         repository.getVideo(key, {
-            dataLoading.value = false
-            contentDetailLive.value = it
+            dataLoadingData.value = false
+            contentDetailData.value = it
         }) {
-            dataLoading.value = false
+            dataLoadingData.value = false
         }
     }
 
