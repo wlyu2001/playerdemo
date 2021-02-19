@@ -20,13 +20,10 @@ class VideoDetailViewModel @Inject constructor(private val repository: Repositor
     fun fetchContentDetail(key: String) {
         dataLoading.value = true
 
-        repository.get(
-            VideoDetail.url(key),
-            VideoDetail::class.java,
-            success = { contentDetail ->
-                dataLoading.value = false
-                contentDetailLive.value = contentDetail.video
-            }) { error ->
+        repository.getVideo(key, {
+            dataLoading.value = false
+            contentDetailLive.value = it
+        }) {
             dataLoading.value = false
         }
     }

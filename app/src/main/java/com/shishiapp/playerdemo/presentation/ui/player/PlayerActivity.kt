@@ -52,7 +52,9 @@ class PlayerActivity : AppCompatActivity() {
                 viewDataBinding.viewmodel?.let {
                     playerService?.addListener(it)
 
-                    it.setCurrentVideo(intent.extras?.getString(INTENT_VIDEO_KEY))
+                    intent.extras?.getString(INTENT_VIDEO_KEY)?.let { key ->
+                        it.setCurrentVideo(key)
+                    }
                 }
             }
         }

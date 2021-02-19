@@ -3,7 +3,6 @@ package com.shishiapp.playerdemo.presentation.ui.section_list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shishiapp.playerdemo.network.model.Section
-import com.shishiapp.playerdemo.network.model.SectionList
 import com.shishiapp.playerdemo.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,14 +14,13 @@ class SectionListViewModel @Inject constructor(private val repository: Repositor
 
     val sectionListLive = MutableLiveData<List<Section>>()
 
-
     fun fetchSectionList() {
         dataLoading.value = true
 
-        repository.get(SectionList.url(), SectionList::class.java, success = { sectionList ->
+        repository.getSectionList({
             dataLoading.value = false
-            sectionListLive.value = sectionList.sections
-        }) { error ->
+            sectionListLive.value = it
+        }){
             dataLoading.value = false
         }
     }

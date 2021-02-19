@@ -12,6 +12,12 @@ import org.simpleframework.xml.Root
 @RealmClass
 @Root(name = "MediaContainer", strict = false)
 open class VideoList : RealmObject() {
+
+    @PrimaryKey
+    @field:Attribute(name = "librarySectionID")
+    var sectionId = 0
+
+
     @field:ElementList(entry = "Video", inline = true)
     var videos = RealmList<Video>()
 

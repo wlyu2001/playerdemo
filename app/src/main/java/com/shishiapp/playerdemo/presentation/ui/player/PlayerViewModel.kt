@@ -41,8 +41,12 @@ class PlayerViewModel @Inject constructor(private val repository: Repository) : 
         durationData.value = duration
     }
 
-    fun setCurrentVideo(key: String?) {
-        currentVideoData.value = repository.get(key)
+    fun setCurrentVideo(key: String) {
+        repository.getVideo(key, {
+            currentVideoData.value = it
+        }) { error ->
+
+        }
     }
 
 
