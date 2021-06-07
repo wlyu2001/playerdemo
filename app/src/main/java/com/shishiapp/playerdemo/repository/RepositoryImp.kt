@@ -2,98 +2,62 @@ package com.shishiapp.playerdemo.repository
 
 import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.network.model.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.RealmModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class RepositoryImp(private val plexService: PlexService, private val realm: Realm) : Repository {
 
-    private fun <T : RealmModel> fetch(
-        path: String,
-        type: Class<T>,
-        success: (T) -> Unit,
-        fail: (Error) -> Unit
-    ) {
-        val observable = when (type) {
-            SectionList::class.java ->
-                plexService.getSectionList(path)
-            VideoList::class.java ->
-                plexService.getContentList(path)
-            VideoDetail::class.java ->
-                plexService.getContentDetail(path)
+    private suspend fun <T : RealmModel> fetch(path: String, type: Class<T>): T {
+        try {
+            val response = when (type) {
+                SectionList::class.java ->
+                    plexService.getSectionList(path)
+                VideoList::class.java ->
+                    plexService.getContentList(path)
+                VideoDetail::class.java ->
+                    plexService.getContentDetail(path)
 
-            else -> null
-        }
+                else -> null
+            }
 
-        val subscription = observable?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe({ response ->
-                realm.beginTransaction()
-                realm.insertOrUpdate(response)
-                realm.commitTransaction()
-                success(response as T)
-            },
-                { error ->
-                    fail(Error(error))
-                })
-    }
 
-    override fun getVideo(key: String,
-                          success: (Video?) -> Unit,
-                          fail: (Error) -> Unit) {
-
-        success(realm.where(Video::class.java).equalTo("key", key).findFirst())
-
-        fetch(
-            VideoDetail.url(key),
-            VideoDetail::class.java,
-            success = { contentDetail ->
-                success(contentDetail.video)
-            }) { error ->
-                fail(error)
+            realm.beginTransaction()
+            realm.insertOrUpdate(response)
+            realm.commitTransaction()
+            return response as T
+        } catch (error: Error) {
+            throw error
         }
     }
 
-    override fun getSection(key: Int, success: (Section?) -> Unit, fail: (Error) -> Unit) {
-        success(realm.where(Section::class.java).equalTo("key", key).findFirst())
+    override suspend fun getVideo(key: String): Flow<Video> = flow {
 
-        fetch(
-            Section.url(sectionKey = key),
-            Section::class.java,
-            success = { section ->
-                success(section)
-            }) { error ->
-            fail(error)
-        }
+        realm.where(Video::class.java).equalTo("key", key).findFirst()?.let { emit(it) }
+
+        fetch(VideoDetail.url(key), VideoDetail::class.java).video?.let { emit(it) }
     }
 
-    override fun getSectionList(success: (List<Section>) -> Unit, fail: (Error) -> Unit) {
+    override suspend fun getSection(key: Int): Flow<Section> = flow {
+        realm.where(Section::class.java).equalTo("key", key).findFirst()?.let { emit(it) }
+
+        fetch(Section.url(sectionKey = key), Section::class.java)?.let{ emit(it)}
+    }
+
+    override suspend fun getSectionList(): Flow<List<Section>> = flow {
         realm.where(SectionList::class.java).findFirst()?.let {
-            success(it.sections)
+            emit(it.sections)
         }
 
-        fetch(
-            SectionList.url(),
-            SectionList::class.java,
-            {
-                success(it.sections)
-            }) { error ->
-            fail(error)
-        }
+        emit(fetch(SectionList.url(), SectionList::class.java).sections)
     }
 
-    override fun getVideoList(sectionId: Int, success: (List<Video>) -> Unit, fail: (Error) -> Unit) {
+    override suspend fun getVideoList(sectionId: Int): Flow<List<Video>> = flow {
         realm.where(VideoList::class.java).equalTo("sectionId", sectionId).findFirst()?.let {
-            success(it.videos)
+            emit(it.videos)
         }
 
-        fetch(
-            VideoList.url(sectionId),
-            VideoList::class.java,
-            {
-                success(it.videos)
-            }) { error ->
-            fail(error)
-        }
+        emit(fetch(VideoList.url(sectionId), VideoList::class.java).videos)
     }
 }

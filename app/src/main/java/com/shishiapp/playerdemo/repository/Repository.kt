@@ -2,15 +2,15 @@ package com.shishiapp.playerdemo.repository
 
 import com.shishiapp.playerdemo.network.model.Section
 import com.shishiapp.playerdemo.network.model.Video
+import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
-    fun getVideo(key: String, success: (Video?) -> Unit, fail: (Error) -> Unit)
+    suspend fun getVideo(key: String): Flow<Video?>
 
+    suspend fun getSection(key: Int): Flow<Section?>
 
-    fun getSection(key: Int, success: (Section?) -> Unit, fail: (Error) -> Unit)
+    suspend fun getSectionList(): Flow<List<Section>>
 
-    fun getSectionList(success: (List<Section>) -> Unit, fail: (Error) -> Unit)
-
-    fun getVideoList(sectionId: Int, success: (List<Video>) -> Unit, fail: (Error) -> Unit)
+    suspend fun getVideoList(sectionId: Int): Flow<List<Video>>
 }

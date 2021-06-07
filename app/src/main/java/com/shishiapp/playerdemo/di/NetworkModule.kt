@@ -1,17 +1,18 @@
 package com.shishiapp.playerdemo.di
 
+import android.content.Context
 import com.shishiapp.playerdemo.network.PlexService
 import com.shishiapp.playerdemo.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import javax.inject.Singleton
 
@@ -36,9 +37,9 @@ class NetworkModule {
             .build()
         val baseUrl = HttpUrl.parse(Constants.baseUrl)!!
         val retrofit = Retrofit.Builder()
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).client(client)
             .addConverterFactory(SimpleXmlConverterFactory.create())
             .baseUrl(baseUrl)
+            .client(client)
             .build()
 
 
@@ -47,7 +48,9 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRealm(): Realm {
+    fun provideRealm(@ApplicationContext appContext: Context): Realm {
+
+        Realm.init(appContext)
         val config = RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
             .build()

@@ -14,7 +14,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.shishiapp.playerdemo.R
@@ -23,6 +22,7 @@ import com.shishiapp.playerdemo.network.model.Video
 import com.shishiapp.playerdemo.presentation.ui.player.playerIntent
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 private const val PLAYBACK_CHANNEL_ID = "playback_channel"
@@ -31,8 +31,7 @@ private const val MEDIA_SESSION_TAG = "media_session"
 
 
 @AndroidEntryPoint
-class PlayerService : Service(), Player.EventListener {
-    private lateinit var player: SimpleExoPlayer
+class PlayerService : Service(), Player.Listener {
     private val binder = PlayerServiceBinder()
     private var callback: PlayerServiceCallback? = null
     private lateinit var playerNotificationManager: PlayerNotificationManager
@@ -45,11 +44,13 @@ class PlayerService : Service(), Player.EventListener {
 
     private var video: Video? = null
 
+    @Inject
+    lateinit var player: ExoPlayer
+
 
     override fun onCreate() {
         super.onCreate()
 
-        player = SimpleExoPlayer.Builder(this).build()
         player.addListener(this)
 
         playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(
@@ -89,7 +90,7 @@ class PlayerService : Service(), Player.EventListener {
             },
             object : PlayerNotificationManager.NotificationListener {
 
-                override fun onNotificationCancelled(notificationId: Int) {
+                override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
                     // this will not immediately stop the service if the binding activity is still there.
                     // After calling this, the next time the activity is finished, the service will stop.
 
