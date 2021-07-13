@@ -256,6 +256,8 @@ class PlayerService : Service(), Player.Listener {
             val part = video?.media?.get(0)?.parts?.get(0)
             if (part != null) {
                 val mediaItem = MediaItem.fromUri(part.key.getMediaUrl())
+                player.stop()
+                player.clearMediaItems()
                 player.addMediaItem(mediaItem)
             }
             player.prepare()
