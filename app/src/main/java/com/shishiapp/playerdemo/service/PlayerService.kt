@@ -264,6 +264,7 @@ class PlayerService : Service(), Player.Listener {
             player.playWhenReady = true
             player.repeatMode = Player.REPEAT_MODE_OFF
         } else {
+            player.playWhenReady = true
             callback?.setDuration(player.duration)
             callback?.setPlayerState(player.playbackState)
             callback?.setIsPlaying(player.playWhenReady)
