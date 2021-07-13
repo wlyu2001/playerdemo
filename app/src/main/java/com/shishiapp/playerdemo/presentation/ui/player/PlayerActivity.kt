@@ -179,6 +179,10 @@ class PlayerActivity : AppCompatActivity() {
 
             viewModel.setRepeatMode(Player.REPEAT_MODE_OFF)
         }
+    }
+
+    public override fun onStart() {
+        super.onStart()
 
         // startService is needed if we want to play in the background
         // no need to call startForegroundService, because PlayerNotificationManager will call startForeground inside the Service
@@ -186,6 +190,12 @@ class PlayerActivity : AppCompatActivity() {
         startService(Intent(this, PlayerService::class.java))
 
         bindPlayerService()
+    }
+
+    public override fun onStop() {
+        super.onStop()
+        unbindService(connection)
+        playerService?.removeListener()
     }
 
     private fun bindPlayerService() {
